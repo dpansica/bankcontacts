@@ -22,6 +22,15 @@ function initContactsList() {
 
         $article.addClass('grow fadeIn');
     });
+
+    $body.on('click', 'button.delete-contact', function () {
+        var $button = $(this);
+        var id = $button.attr('data-id');
+
+        callEndpoint("http://127.0.0.1:8080/contacts-app/remove", {"id": id}, function(response){
+            callEndpoint("http://127.0.0.1:8080/contacts-app/contacts", {}, refreshContactList);
+        })
+    });
 }
 
 function initDatePickers() {
@@ -42,8 +51,8 @@ function refreshContactList(response) {
         "                      <td class=  \"text-nowrap align-middle\"><span>09 Dec 2017</span></td>" +
         "                      <td class=\"text-center alignmiddle\">" +
         "                        <div class=\"btn-group align-top\">" +
-        "                            <button class=\"btn btn-sm btn-outline-secondary badge\" type=\"button\" data-toggle=\"modal\" data-target=\"#user-formmodal\">Edit</button>" +
-        "                            <button class=\"btn btn-sm btn-outline-secondary badge\" type=\"button\"><i class=\"fa fa-trash\"></i></button>" +
+        "                            <button class=\"btn btn-sm btn-outline-secondary badge edit-contact\" type=\"button\" data-toggle=\"modal\" data-target=\"#user-formmodal\" data-id=\""+element.id+"\">Edit</button>" +
+        "                            <button class=\"btn btn-sm btn-outline-secondary badge delete-contact\" type=\"button\" data-id=\""+element.id+"\"><i class=\"fa fa-trash\" ></i></button>" +
         "                        </div>" +
         "                      </td>" +
         "                    </tr>");

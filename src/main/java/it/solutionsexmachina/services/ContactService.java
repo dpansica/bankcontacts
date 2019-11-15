@@ -28,4 +28,10 @@ public class ContactService {
     public ContactDO save(ContactDO entity){
         return contactRepository.save(entity);
     }
+
+    public ContactDO delete(String id) {
+        ContactDO entity = contactRepository.findById(Long.parseLong(id)).get();
+        contactRepository.delete(entity);
+        return entity;
+    }
 }

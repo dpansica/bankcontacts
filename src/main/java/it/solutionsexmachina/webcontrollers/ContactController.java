@@ -20,19 +20,27 @@ public class ContactController {
     @Autowired
     private ContactService contactService;
 
+    @CrossOrigin(origins = "*")
     @PostMapping("/contacts")
     public List<ContactDO> getContacts(@RequestBody ContactFilter filter) {
         return contactService.searchContacts(filter);
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping("/contacts/save")
-    public ContactDO getContacts(@RequestBody ContactDTO dto) {
+    public ContactDO save(@RequestBody ContactDTO dto) {
 
         ContactDO entity = new ContactDO();
 
         BeanUtils.copyProperties(dto, entity);
 
         return contactService.save(entity);
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/contacts/remove")
+    public ContactDO remove(@RequestBody ContactDTO dto) {
+        return contactService.delete(dto.getId());
     }
 
 }
