@@ -1,7 +1,14 @@
 $(document).ready(function () {
 
+    initDatePickers();
+
     callEndpoint("http://127.0.0.1:8080/contacts-app/contacts", {}, refreshContactList);
 
+    initContactsList();
+
+});
+
+function initContactsList() {
     var $body = $('body');
 
     $body.on('click', 'div.master_list div.list-group button', function () {
@@ -15,8 +22,13 @@ $(document).ready(function () {
 
         $article.addClass('grow fadeIn');
     });
+}
 
-});
+function initDatePickers() {
+    $('.datepicker').each(function() {
+        $(this).datepicker('clearDates');
+    });
+}
 
 function refreshContactList(response) {
     var contactsList = JSON.parse(response);
