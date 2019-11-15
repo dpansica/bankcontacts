@@ -27,7 +27,7 @@ function initContactsList() {
         var $button = $(this);
         var id = $button.attr('data-id');
 
-        callEndpoint("http://127.0.0.1:8080/contacts-app/remove", {"id": id}, function(response){
+        callEndpoint("http://127.0.0.1:8080/contacts-app/contacts/remove", {"id": id}, function(response){
             callEndpoint("http://127.0.0.1:8080/contacts-app/contacts", {}, refreshContactList);
         })
     });

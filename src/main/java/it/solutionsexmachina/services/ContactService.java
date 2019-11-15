@@ -29,9 +29,8 @@ public class ContactService {
         return contactRepository.save(entity);
     }
 
-    public ContactDO delete(String id) {
-        ContactDO entity = contactRepository.findById(Long.parseLong(id)).get();
+    public void delete(String id) {
+        ContactDO entity = contactRepository.findById(id).get();
         contactRepository.delete(entity);
-        return entity;
     }
 }

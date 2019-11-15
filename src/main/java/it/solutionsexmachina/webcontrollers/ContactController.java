@@ -6,8 +6,6 @@ import it.solutionsexmachina.filters.ContactFilter;
 import it.solutionsexmachina.services.ContactService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,7 +33,7 @@ public class ContactController {
     }
 
     @RequestMapping(value = "/contacts/remove", method = RequestMethod.POST)
-    public ContactDO remove(@RequestBody ContactDTO dto) {
-        return contactService.delete(dto.getId());
+    public void remove(@RequestBody ContactDTO dto) {
+        contactService.delete(dto.getId());
     }
 }
