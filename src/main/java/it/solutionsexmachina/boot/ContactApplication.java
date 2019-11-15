@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories("it.solutionsexmachina.repositories")
 @EntityScan("it.solutionsexmachina.entities")
 @ComponentScan({"it.solutionsexmachina.webcontrollers"})
-@Import({ ServicesConfig.class })
+@Import({ServicesConfig.class})
 public class ContactApplication {
 
     public static void main(String[] args) {
