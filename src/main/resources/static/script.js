@@ -15,6 +15,7 @@ $(document).ready(function () {
 
         $article.addClass('grow fadeIn');
     });
+
 });
 
 function refreshContactList(response) {
