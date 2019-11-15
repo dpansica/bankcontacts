@@ -6,10 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="bootstrap-datepicker-1.9.0-dist/css/bootstrap-datepicker.css">
     <script src="bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.js"></script>
@@ -35,7 +36,7 @@
                     <h4 class="modal-title">Create new contact</h4>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="contactForm" action="javascript:postForm('contactForm', 'http://127.0.0.1:8080/contacts-app/contacts/save', closeModalAndRefreshList)">
                         <div class="form-group">
                             <label for="firstName">First Name</label>
                             <input type="text" class="form-control" id="firstName" aria-describedby="firstNameHelp" placeholder="Enter first name">

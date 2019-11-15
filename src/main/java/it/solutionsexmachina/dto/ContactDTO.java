@@ -1,5 +1,7 @@
 package it.solutionsexmachina.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class ContactDTO {
@@ -10,6 +12,7 @@ public class ContactDTO {
 
     private String secondName;
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dob;
 
     private String picture;
