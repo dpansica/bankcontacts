@@ -18,7 +18,11 @@ $(document).ready(function () {
 });
 
 function refreshContactList(response) {
-    console.log(response);
+    var contactsList = JSON.parse(response);
+
+    contactsList.forEach(function(element, index, array){
+        $('#contacts').append("<button type=\"button\" class=\"list-group-item\" data-option=\"option1\">"+element.firstName+' '+element.secondName+"</button>")
+    });
 }
 
 function callEndpoint(url, payload, handler) {
