@@ -36,12 +36,22 @@ function refreshContactList(response) {
     $('#contacts').empty();
 
     contactsList.forEach(function(element, index, array){
-        $('#contacts').append("<button type=\"button\" class=\"list-group-item\" data-option=\"option1\">"+element.firstName+' '+element.secondName+"</button>")
+
+        $('#contacts').append("<tr>                      " +
+            "<td class=\"text-nowrap align-middle\">"+element.firstName+' '+element.secondName+"</td>" +
+        "                      <td class=  \"text-nowrap align-middle\"><span>09 Dec 2017</span></td>" +
+        "                      <td class=\"text-center alignmiddle\">" +
+        "                        <div class=\"btn-group align-top\">" +
+        "                            <button class=\"btn btn-sm btn-outline-secondary badge\" type=\"button\" data-toggle=\"modal\" data-target=\"#user-formmodal\">Edit</button>" +
+        "                            <button class=\"btn btn-sm btn-outline-secondary badge\" type=\"button\"><i class=\"fa fa-trash\"></i></button>" +
+        "                        </div>" +
+        "                      </td>" +
+        "                    </tr>");
     });
 }
 
 function closeModalAndRefreshList(response){
-    $('#myModal').modal('toggle');
+    $('#contact-form-modal').modal('toggle');
 
     callEndpoint("http://127.0.0.1:8080/contacts-app/contacts", {}, refreshContactList);
 }
