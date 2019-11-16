@@ -113,9 +113,9 @@ function closeModalAndRefreshContactList(response){
 }
 
 function closeModalAndRefreshAddressList(response){
-    $('#contact-form-modal').modal('toggle');
+    $('#address-form-modal').modal('toggle');
 
-    callEndpoint("http://127.0.0.1:8080/contacts-app/addresses", "POST", {}, refreshContactList);
+    callEndpoint("http://127.0.0.1:8080/contacts-app/addresses", "POST", {}, refreshAddressList);
 }
 
 function postForm(formElement, url, handler){
