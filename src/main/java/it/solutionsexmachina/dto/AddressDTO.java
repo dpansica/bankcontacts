@@ -4,6 +4,8 @@ public class AddressDTO {
 
     private String id;
 
+    private String contactId;
+
     private String street;
 
     private String postalCode;
@@ -52,6 +54,14 @@ public class AddressDTO {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(String contactId) {
+        this.contactId = contactId;
     }
 
     public ContactDTO getContact() {

@@ -96,7 +96,7 @@
           </div>
           <div class="modal-body">
             <div class="py-1">
-              <form class="form" novalidate="" id="contactForm" action="javascript:postForm('contactForm', 'http://127.0.0.1:8080/contacts-app/contacts/save', closeModalAndRefreshList)">
+              <form class="form" novalidate="" id="contactForm" action="javascript:postForm('contactForm', 'http://127.0.0.1:8080/contacts-app/contacts/save', closeModalAndRefreshContactList)">
                 <div class="row">
                   <div class="col">
                     <div class="row">
@@ -154,7 +154,7 @@
                                 <th class="sortable">Country</th>
                               </tr>
                               </thead>
-                              <tbody id="address">
+                              <tbody id="addresses">
 
                               </tbody>
                             </table>
@@ -188,7 +188,7 @@
                                 <th class="sortable">Number</th>
                               </tr>
                               </thead>
-                              <tbody id="phoneNumber">
+                              <tbody id="phoneNumbers">
 
                               </tbody>
                             </table>
@@ -218,14 +218,35 @@
           </div>
           <div class="modal-body">
             <div class="py-1">
-              <form class="form" novalidate="" id="addressForm" action="javascript:postForm('contactForm', 'http://127.0.0.1:8080/contacts-app/address/save', closeModalAndRefreshList)">
+              <form class="form" novalidate="" id="addressForm" action="javascript:postForm('addressForm', 'http://127.0.0.1:8080/contacts-app/address/save', closeModalAndRefreshAddressList)">
                 <div class="row">
                   <div class="col">
                     <div class="row">
                       <div class="col">
                         <div class="form-group">
                           <label>Street</label>
+                          <input class="form-control" type="text" name="contactId" id="contactId">
                           <input class="form-control" type="text" name="street" id="street">
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Postal Code</label>
+                          <input class="form-control" type="text" name="postalCode" id="postalCode">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Town</label>
+                          <input class="form-control" type="text" name="town" id="town">
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Country</label>
+                          <input class="form-control" type="text" name="country" id="country">
                         </div>
                       </div>
                     </div>
@@ -259,7 +280,7 @@
           </div>
           <div class="modal-body">
             <div class="py-1">
-              <form class="form" novalidate="" id="phoneForm" action="javascript:postForm('contactForm', 'http://127.0.0.1:8080/contacts-app/phone/save', closeModalAndRefreshList)">
+              <form class="form" novalidate="" id="phoneForm" action="javascript:postForm('contactForm', 'http://127.0.0.1:8080/contacts-app/phone/save', closeModalAndRefreshContactList)">
                 <div class="row">
                   <div class="col">
                     <div class="row">

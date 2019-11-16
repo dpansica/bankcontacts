@@ -46,7 +46,14 @@ function initContactsList() {
                 }
             }
 
-            $('#contact-form-modal').modal('toggle');
+            callEndpoint("http://127.0.0.1:8080/contacts-app/addresses", "POST", {"contactId": id}, function(response){
+
+                refreshAddressList(response);
+
+                $('#addressForm #contactId').val(object['id']);
+
+                $('#contact-form-modal').modal('toggle');
+            });
 
 
         })
@@ -79,10 +86,36 @@ function refreshContactList(response) {
     });
 }
 
-function closeModalAndRefreshList(response){
+function refreshAddressList(response) {
+    var contactsList = JSON.parse(response);
+
+    $('#addresses').empty();
+
+    callEndpoint("http://127.0.0.1:8080/contacts-app/address-row.html", "GET", {}, function(response) {
+
+        contactsList.forEach(function (element, index, array) {
+            var row = response;
+            for (var property in element) {
+                if (Object.prototype.hasOwnProperty.call(element, property)) {
+                    var pattern = '${'+property+'}';
+                    row = row.replace(pattern, element[property]);
+                }
+            }
+            $('#addresses').append(row);
+        });
+    });
+}
+
+function closeModalAndRefreshContactList(response){
     $('#contact-form-modal').modal('toggle');
 
     callEndpoint("http://127.0.0.1:8080/contacts-app/contacts", "POST", {}, refreshContactList);
+}
+
+function closeModalAndRefreshAddressList(response){
+    $('#contact-form-modal').modal('toggle');
+
+    callEndpoint("http://127.0.0.1:8080/contacts-app/addresses", "POST", {}, refreshContactList);
 }
 
 function postForm(formElement, url, handler){
