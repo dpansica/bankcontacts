@@ -31,6 +31,15 @@ function initContactsList() {
             callEndpoint("http://127.0.0.1:8080/contacts-app/contacts", "POST",  {}, refreshContactList);
         })
     });
+
+    $body.on('click', 'button.edit-contact', function () {
+        var $button = $(this);
+        var id = $button.attr('data-id');
+
+        callEndpoint("http://127.0.0.1:8080/contacts-app/contacts/"+id, "GET", {}, function(response){
+            console.log(response);
+        })
+    });
 }
 
 function initDatePickers() {

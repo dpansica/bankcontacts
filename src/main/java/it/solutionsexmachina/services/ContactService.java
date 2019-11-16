@@ -33,4 +33,8 @@ public class ContactService {
         ContactDO entity = contactRepository.findById(id).get();
         contactRepository.delete(entity);
     }
+
+    public ContactDO getById(String id) {
+        return contactRepository.findById(id).get();
+    }
 }

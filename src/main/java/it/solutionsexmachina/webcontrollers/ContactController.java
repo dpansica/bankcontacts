@@ -34,6 +34,17 @@ public class ContactController {
         return results;
     }
 
+    @RequestMapping(value = "/contacts/{id}", method = RequestMethod.GET)
+    public ContactDTO getContact(@PathVariable(value = "id") String id) {
+
+        ContactDO contact = contactService.getById(id);
+        ContactDTO dto = new ContactDTO();
+
+        BeanUtils.copyProperties(contact, dto);
+
+        return dto;
+    }
+
     @RequestMapping(value = "/contacts/save", method = RequestMethod.POST)
     public ContactDO save(@RequestBody ContactDTO dto) {
 
