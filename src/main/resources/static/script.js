@@ -37,7 +37,18 @@ function initContactsList() {
         var id = $button.attr('data-id');
 
         callEndpoint("http://127.0.0.1:8080/contacts-app/contacts/"+id, "GET", {}, function(response){
-            console.log(response);
+
+            var object = JSON.parse(response);
+            for (var property in object) {
+                if (Object.prototype.hasOwnProperty.call(object, property)) {
+                    var selector = '#contactForm #'+property;
+                    $(selector).val(object[property]);
+                }
+            }
+
+            $('#contact-form-modal').modal('toggle');
+
+
         })
     });
 }
