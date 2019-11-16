@@ -2,7 +2,7 @@ $(document).ready(function () {
 
     initDatePickers();
 
-    callEndpoint("http://127.0.0.1:8080/contacts-app/contacts", {}, refreshContactList);
+    callEndpoint("http://127.0.0.1:8080/contacts-app/contacts", "POST", {}, refreshContactList);
 
     initContactsList();
 
@@ -27,8 +27,8 @@ function initContactsList() {
         var $button = $(this);
         var id = $button.attr('data-id');
 
-        callEndpoint("http://127.0.0.1:8080/contacts-app/contacts/remove", {"id": id}, function(response){
-            callEndpoint("http://127.0.0.1:8080/contacts-app/contacts", {}, refreshContactList);
+        callEndpoint("http://127.0.0.1:8080/contacts-app/contacts/remove", "POST", {"id": id}, function(response){
+            callEndpoint("http://127.0.0.1:8080/contacts-app/contacts", "POST",  {}, refreshContactList);
         })
     });
 }
@@ -44,25 +44,25 @@ function refreshContactList(response) {
 
     $('#contacts').empty();
 
-    contactsList.forEach(function(element, index, array){
+    callEndpoint("http://127.0.0.1:8080/contacts-app/contact-row.html", "GET", {}, function(response) {
 
-        $('#contacts').append("<tr>                      " +
-            "<td class=\"text-nowrap align-middle\">"+element.firstName+' '+element.secondName+"</td>" +
-        "                      <td class=  \"text-nowrap align-middle\"><span>09 Dec 2017</span></td>" +
-        "                      <td class=\"text-center alignmiddle\">" +
-        "                        <div class=\"btn-group align-top\">" +
-        "                            <button class=\"btn btn-sm btn-outline-secondary badge edit-contact\" type=\"button\" data-toggle=\"modal\" data-target=\"#user-formmodal\" data-id=\""+element.id+"\">Edit</button>" +
-        "                            <button class=\"btn btn-sm btn-outline-secondary badge delete-contact\" type=\"button\" data-id=\""+element.id+"\"><i class=\"fa fa-trash\" ></i></button>" +
-        "                        </div>" +
-        "                      </td>" +
-        "                    </tr>");
+        contactsList.forEach(function (element, index, array) {
+            var row = response;
+            for (var property in element) {
+                if (Object.prototype.hasOwnProperty.call(element, property)) {
+                    var pattern = '${'+property+'}';
+                    row = row.replace(pattern, element[property]);
+                }
+            }
+            $('#contacts').append(row);
+        });
     });
 }
 
 function closeModalAndRefreshList(response){
     $('#contact-form-modal').modal('toggle');
 
-    callEndpoint("http://127.0.0.1:8080/contacts-app/contacts", {}, refreshContactList);
+    callEndpoint("http://127.0.0.1:8080/contacts-app/contacts", "POST", {}, refreshContactList);
 }
 
 function postForm(formElement, url, handler){
@@ -73,10 +73,10 @@ function postForm(formElement, url, handler){
         payload[textInputs[i].id]=textInputs[i].value;
     }
 
-    callEndpoint(url, payload, handler);
+    callEndpoint(url,"POST", payload, handler);
 }
 
-function callEndpoint(url, payload, handler) {
+function callEndpoint(url, method, payload, handler) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -85,7 +85,8 @@ function callEndpoint(url, payload, handler) {
             }
         }
     };
-    xhttp.open("POST", url, true);
+    xhttp.open(method, url, true);
     xhttp.setRequestHeader("Content-Type", "application/json");
     xhttp.send(JSON.stringify(payload));
 }
+
