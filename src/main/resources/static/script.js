@@ -103,6 +103,17 @@ function refreshAddressList(response) {
             }
             $('#addresses').append(row);
         });
+
+        var $body = $('body');
+        $body.on('click', 'button.delete-address', function () {
+            var $button = $(this);
+            var id = $button.attr('data-id');
+
+            callEndpoint("http://127.0.0.1:8080/contacts-app/address/remove", "POST", {"id": id}, function(response){
+                callEndpoint("http://127.0.0.1:8080/contacts-app/addresses", "POST",  {}, refreshAddressList);
+            })
+        });
+
     });
 }
 
