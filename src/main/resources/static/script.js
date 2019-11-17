@@ -128,7 +128,7 @@ function refreshPhoneList(response) {
                     row = row.replace(new RegExp(pattern, "g"), element[property]);
                 }
             }
-            $('#addresses').append(row);
+            $('#phones').append(row);
         });
 
         var $body = $('body');
@@ -136,7 +136,7 @@ function refreshPhoneList(response) {
             var $button = $(this);
             var id = $button.attr('data-id');
 
-            callEndpoint("http://127.0.0.1:8080/contacts-app/phones/remove", "POST", {"id": id}, function(response){
+            callEndpoint("http://127.0.0.1:8080/contacts-app/phone/remove", "POST", {"id": id}, function(response){
                 callEndpoint("http://127.0.0.1:8080/contacts-app/phones", "POST",  {}, refreshPhoneList);
             })
         });

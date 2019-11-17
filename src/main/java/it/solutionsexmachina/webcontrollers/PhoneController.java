@@ -3,7 +3,6 @@ package it.solutionsexmachina.webcontrollers;
 import it.solutionsexmachina.dto.PhoneNumberDTO;
 import it.solutionsexmachina.entities.ContactDO;
 import it.solutionsexmachina.entities.PhoneNumberDO;
-import it.solutionsexmachina.filters.AddressFilter;
 import it.solutionsexmachina.filters.PhoneFilter;
 import it.solutionsexmachina.services.ContactService;
 import org.springframework.beans.BeanUtils;
@@ -46,7 +45,7 @@ public class PhoneController {
 
         BeanUtils.copyProperties(dto, entity);
         entity.setContact(new ContactDO());
-        entity.getContact().setId(dto.getContactId());
+        entity.getContact().setId(dto.getPhoneContactId());
 
         return contactService.savePhone(entity);
     }

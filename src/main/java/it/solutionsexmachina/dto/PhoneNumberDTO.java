@@ -4,7 +4,7 @@ public class PhoneNumberDTO {
 
     private String id;
 
-    private String contactId;
+    private String phoneContactId;
 
     private String internationalPrefix;
 
@@ -54,11 +54,11 @@ public class PhoneNumberDTO {
         this.contact = contact;
     }
 
-    public String getContactId() {
-        return contactId;
+    public String getPhoneContactId() {
+        return phoneContactId;
     }
 
-    public void setContactId(String contactId) {
-        this.contactId = contactId;
+    public void setPhoneContactId(String phoneContactId) {
+        this.phoneContactId = phoneContactId;
     }
 }
