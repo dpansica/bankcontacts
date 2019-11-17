@@ -11,17 +11,17 @@ $(document).ready(function () {
 function initContactsList() {
     var $body = $('body');
 
-    $body.on('click', 'div.master_list div.list-group button', function () {
-        var $button = $(this),
-            article_option = $button.attr('data-option'),
-            article_selector = 'article.' + article_option,
-            $master_detail = $button.closest('.master_detail'),
-            $article = $master_detail.find(article_selector);
-
-        $master_detail.find('article').removeClass('grow fadeIn');
-
-        $article.addClass('grow fadeIn');
-    });
+    // $body.on('click', 'div.master_list div.list-group button', function () {
+    //     var $button = $(this),
+    //         article_option = $button.attr('data-option'),
+    //         article_selector = 'article.' + article_option,
+    //         $master_detail = $button.closest('.master_detail'),
+    //         $article = $master_detail.find(article_selector);
+    //
+    //     $master_detail.find('article').removeClass('grow fadeIn');
+    //
+    //     $article.addClass('grow fadeIn');
+    // });
 
     $body.on('click', 'button.delete-contact', function () {
         var $button = $(this);
@@ -77,8 +77,8 @@ function refreshContactList(response) {
             var row = response;
             for (var property in element) {
                 if (Object.prototype.hasOwnProperty.call(element, property)) {
-                    var pattern = '${'+property+'}';
-                    row = row.replace(pattern, element[property]);
+                    var pattern = '_'+property+'_';
+                    row = row.replace(new RegExp(pattern, "g"), element[property]);
                 }
             }
             $('#contacts').append(row);
@@ -97,8 +97,8 @@ function refreshAddressList(response) {
             var row = response;
             for (var property in element) {
                 if (Object.prototype.hasOwnProperty.call(element, property)) {
-                    var pattern = '${'+property+'}';
-                    row = row.replace(pattern, element[property]);
+                    var pattern = '_'+property+'_';
+                    row = row.replace(new RegExp(pattern, "g"), element[property]);
                 }
             }
             $('#addresses').append(row);
@@ -151,6 +151,11 @@ function callEndpoint(url, method, payload, handler) {
     };
     xhttp.open(method, url, true);
     xhttp.setRequestHeader("Content-Type", "application/json");
+    xhttp.setRequestHeader('cache-control', 'no-cache, must-revalidate, post-check=0, pre-check=0');
+    xhttp.setRequestHeader('cache-control', 'max-age=0');
+    xhttp.setRequestHeader('expires', '0');
+    xhttp.setRequestHeader('expires', 'Tue, 01 Jan 1980 1:00:00 GMT');
+    xhttp.setRequestHeader('pragma', 'no-cache');
     xhttp.send(JSON.stringify(payload));
 }
 
