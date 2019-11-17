@@ -11,18 +11,6 @@ $(document).ready(function () {
 function initContactsList() {
     var $body = $('body');
 
-    // $body.on('click', 'div.master_list div.list-group button', function () {
-    //     var $button = $(this),
-    //         article_option = $button.attr('data-option'),
-    //         article_selector = 'article.' + article_option,
-    //         $master_detail = $button.closest('.master_detail'),
-    //         $article = $master_detail.find(article_selector);
-    //
-    //     $master_detail.find('article').removeClass('grow fadeIn');
-    //
-    //     $article.addClass('grow fadeIn');
-    // });
-
     $body.on('click', 'button.delete-contact', function () {
         var $button = $(this);
         var id = $button.attr('data-id');
@@ -52,7 +40,15 @@ function initContactsList() {
 
                 $('#addressForm #contactId').val(object['id']);
 
-                $('#contact-form-modal').modal('toggle');
+                callEndpoint("http://127.0.0.1:8080/contacts-app/phones", "POST", {"contactId": id}, function(response) {
+
+                    refreshPhoneList(response);
+
+                    $('#phoneForm #phoneContactId').val(object['id']);
+
+                    $('#contact-form-modal').modal('toggle');
+
+                });
             });
 
 
@@ -117,6 +113,37 @@ function refreshAddressList(response) {
     });
 }
 
+function refreshPhoneList(response) {
+    var phonesList = JSON.parse(response);
+
+    $('#phones').empty();
+
+    callEndpoint("http://127.0.0.1:8080/contacts-app/phone-row.html", "GET", {}, function(response) {
+
+        phonesList.forEach(function (element, index, array) {
+            var row = response;
+            for (var property in element) {
+                if (Object.prototype.hasOwnProperty.call(element, property)) {
+                    var pattern = '_'+property+'_';
+                    row = row.replace(new RegExp(pattern, "g"), element[property]);
+                }
+            }
+            $('#addresses').append(row);
+        });
+
+        var $body = $('body');
+        $body.on('click', 'button.delete-phone', function () {
+            var $button = $(this);
+            var id = $button.attr('data-id');
+
+            callEndpoint("http://127.0.0.1:8080/contacts-app/phones/remove", "POST", {"id": id}, function(response){
+                callEndpoint("http://127.0.0.1:8080/contacts-app/phones", "POST",  {}, refreshPhoneList);
+            })
+        });
+
+    });
+}
+
 function closeModalAndRefreshContactList(response){
     $('#contact-form-modal').modal('toggle');
 
@@ -127,6 +154,12 @@ function closeModalAndRefreshAddressList(response){
     $('#address-form-modal').modal('toggle');
 
     callEndpoint("http://127.0.0.1:8080/contacts-app/addresses", "POST", {}, refreshAddressList);
+}
+
+function closeModalAndRefreshPhoneList(response){
+    $('#phone-form-modal').modal('toggle');
+
+    callEndpoint("http://127.0.0.1:8080/contacts-app/phones", "POST", {}, refreshPhoneList);
 }
 
 function postForm(formElement, url, handler){

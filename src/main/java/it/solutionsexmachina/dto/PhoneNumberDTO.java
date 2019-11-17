@@ -4,6 +4,8 @@ public class PhoneNumberDTO {
 
     private String id;
 
+    private String contactId;
+
     private String internationalPrefix;
 
     private String localPrefix;
@@ -50,5 +52,13 @@ public class PhoneNumberDTO {
 
     public void setContact(ContactDTO contact) {
         this.contact = contact;
+    }
+
+    public String getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(String contactId) {
+        this.contactId = contactId;
     }
 }

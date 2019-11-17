@@ -281,14 +281,29 @@
           </div>
           <div class="modal-body">
             <div class="py-1">
-              <form class="form" novalidate="" id="phoneForm" action="javascript:postForm('contactForm', 'http://127.0.0.1:8080/contacts-app/phone/save', closeModalAndRefreshContactList)">
+              <form class="form" novalidate="" id="phoneForm" action="javascript:postForm('phoneForm', 'http://127.0.0.1:8080/contacts-app/phone/save', closeModalAndRefreshPhoneList)">
                 <div class="row">
                   <div class="col">
                     <div class="row">
                       <div class="col">
                         <div class="form-group">
                           <label>International Prefix</label>
+                          <input class="form-control" type="text" name="contactId" id="phoneContactId" style="display: none">
                           <input class="form-control" type="text" name="internationalPrefix" id="internationalPrefix">
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Local Prefix</label>
+                          <input class="form-control" type="text" name="localPrefix" id="localPrefix">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Number</label>
+                          <input class="form-control" type="text" name="number" id="number">
                         </div>
                       </div>
                     </div>

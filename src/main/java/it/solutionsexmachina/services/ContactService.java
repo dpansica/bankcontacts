@@ -2,10 +2,13 @@ package it.solutionsexmachina.services;
 
 import it.solutionsexmachina.entities.AddressDO;
 import it.solutionsexmachina.entities.ContactDO;
+import it.solutionsexmachina.entities.PhoneNumberDO;
 import it.solutionsexmachina.filters.AddressFilter;
 import it.solutionsexmachina.filters.ContactFilter;
+import it.solutionsexmachina.filters.PhoneFilter;
 import it.solutionsexmachina.repositories.AddressRepository;
 import it.solutionsexmachina.repositories.ContactRepository;
+import it.solutionsexmachina.repositories.PhoneNumberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +25,9 @@ public class ContactService {
 
     @Autowired
     private AddressRepository addressRepository;
+
+    @Autowired
+    private PhoneNumberRepository phoneNumberRepository;
 
 
     public List<ContactDO> searchContacts(ContactFilter filter) {
@@ -72,4 +78,32 @@ public class ContactService {
 
         return result;
     }
+
+    public PhoneNumberDO savePhone(PhoneNumberDO entity) {
+        ContactDO contact = contactRepository.findById(entity.getContact().getId()).get();
+
+        entity.setContact(contact);
+
+        return phoneNumberRepository.save(entity);
+    }
+
+    public void deletePhone(String id) {
+        PhoneNumberDO entity = phoneNumberRepository.findById(id).get();
+        phoneNumberRepository.delete(entity);
+    }
+
+    public List<PhoneNumberDO> searchPhones(PhoneFilter filter) {
+        List<PhoneNumberDO> result = new ArrayList<PhoneNumberDO>();
+
+        PhoneNumberDO example = new PhoneNumberDO();
+        example.setContact(new ContactDO());
+        example.getContact().setId(filter.getContactId());
+
+        for (PhoneNumberDO phoneNumberDO : phoneNumberRepository.findAll(Example.of(example))) {
+            result.add(phoneNumberDO);
+        }
+
+        return result;
+    }
+
 }
