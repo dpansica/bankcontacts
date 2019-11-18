@@ -1,11 +1,9 @@
 package it.solutionsexmachina.webcontrollers;
 
 import it.solutionsexmachina.dto.AddressDTO;
-import it.solutionsexmachina.dto.ContactDTO;
 import it.solutionsexmachina.entities.AddressDO;
 import it.solutionsexmachina.entities.ContactDO;
 import it.solutionsexmachina.filters.AddressFilter;
-import it.solutionsexmachina.filters.ContactFilter;
 import it.solutionsexmachina.services.ContactService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +36,7 @@ public class AddressController {
     }
 
     @RequestMapping(value = "/address/save", method = RequestMethod.POST)
-    public AddressDO save(@RequestBody AddressDTO dto) {
+    public AddressDTO save(@RequestBody AddressDTO dto) {
 
         AddressDO entity = new AddressDO();
 
@@ -46,7 +44,11 @@ public class AddressController {
         entity.setContact(new ContactDO());
         entity.getContact().setId(dto.getContactId());
 
-        return contactService.saveAddress(entity);
+        AddressDO addressDO = contactService.saveAddress(entity);
+
+        BeanUtils.copyProperties(addressDO, dto);
+
+        return dto;
     }
 
     @RequestMapping(value = "/address/remove", method = RequestMethod.POST)

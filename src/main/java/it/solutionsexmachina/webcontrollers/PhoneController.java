@@ -39,7 +39,7 @@ public class PhoneController {
     }
 
     @RequestMapping(value = "/phone/save", method = RequestMethod.POST)
-    public PhoneNumberDO save(@RequestBody PhoneNumberDTO dto) {
+    public PhoneNumberDTO save(@RequestBody PhoneNumberDTO dto) {
 
         PhoneNumberDO entity = new PhoneNumberDO();
 
@@ -47,7 +47,11 @@ public class PhoneController {
         entity.setContact(new ContactDO());
         entity.getContact().setId(dto.getPhoneContactId());
 
-        return contactService.savePhone(entity);
+        PhoneNumberDO phoneNumberDO = contactService.savePhone(entity);
+
+        BeanUtils.copyProperties(phoneNumberDO, dto);
+
+        return dto;
     }
 
     @RequestMapping(value = "/phone/remove", method = RequestMethod.POST)
