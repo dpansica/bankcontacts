@@ -9,8 +9,10 @@ import it.solutionsexmachina.filters.PhoneFilter;
 import it.solutionsexmachina.repositories.AddressRepository;
 import it.solutionsexmachina.repositories.ContactRepository;
 import it.solutionsexmachina.repositories.PhoneNumberRepository;
+import it.solutionsexmachina.repositories.specs.ContactSpecs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -32,9 +34,13 @@ public class ContactService {
 
     public List<ContactDO> searchContacts(ContactFilter filter) {
         List<ContactDO> result = new ArrayList<ContactDO>();
-        for (ContactDO contactDO : contactRepository.findAll()) {
-            result.add(contactDO);
+
+        Specification<ContactDO> all = ContactSpecs.all();
+        if (filter.getName()!=null){
+            all = all.and(ContactSpecs.likeThisName(filter.getName()));
         }
+
+        result = contactRepository.findAll(all);
 
         return result;
     }
