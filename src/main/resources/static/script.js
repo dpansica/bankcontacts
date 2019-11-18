@@ -2,7 +2,7 @@ $(document).ready(function () {
 
     initDatePickers();
 
-    callEndpoint("http://127.0.0.1:8080/contacts-app/contacts", "POST", {}, refreshContactList);
+    callEndpoint("http://127.0.0.1:8001/contacts-app/contacts", "POST", {}, refreshContactList);
 
     initContactsList();
 
@@ -23,16 +23,17 @@ function initContactsList() {
         var $button = $(this);
         var id = $button.attr('data-id');
 
-        callEndpoint("http://127.0.0.1:8080/contacts-app/contacts/remove", "POST", {"id": id}, function(response){
-            callEndpoint("http://127.0.0.1:8080/contacts-app/contacts", "POST",  {}, refreshContactList);
+        callEndpoint("http://127.0.0.1:8001/contacts-app/contacts/remove", "POST", {"id": id}, function(response){
+            callEndpoint("http://127.0.0.1:8001/contacts-app/contacts", "POST",  {}, refreshContactList);
         })
     });
 
     $body.on('click', 'button.edit-contact', function () {
+
         var $button = $(this);
         var id = $button.attr('data-id');
 
-        callEndpoint("http://127.0.0.1:8080/contacts-app/contacts/"+id, "GET", {}, function(response){
+        callEndpoint("http://127.0.0.1:8001/contacts-app/contacts/"+id, "GET", {}, function(response){
 
             var object = JSON.parse(response);
             for (var property in object) {
@@ -47,17 +48,19 @@ function initContactsList() {
                 loadImage(object['picture']);
             }
 
-            callEndpoint("http://127.0.0.1:8080/contacts-app/addresses", "POST", {"contactId": id}, function(response){
+            callEndpoint("http://127.0.0.1:8001/contacts-app/addresses", "POST", {"contactId": id}, function(response){
 
                 refreshAddressList(response);
 
                 $('#addressForm #contactId').val(object['id']);
 
-                callEndpoint("http://127.0.0.1:8080/contacts-app/phones", "POST", {"contactId": id}, function(response) {
+                callEndpoint("http://127.0.0.1:8001/contacts-app/phones", "POST", {"contactId": id}, function(response) {
 
                     refreshPhoneList(response);
 
                     $('#phoneForm #phoneContactId').val(object['id']);
+
+                    $('.initiallyHidden').addClass('sectionEditable').removeClass('initiallyHidden');
 
                     $('#contact-form-modal').modal('toggle');
 
@@ -80,7 +83,7 @@ function refreshContactList(response) {
 
     $('#contacts').empty();
 
-    callEndpoint("http://127.0.0.1:8080/contacts-app/contact-row.html", "GET", {}, function(response) {
+    callEndpoint("http://127.0.0.1:8001/contacts-app/contact-row.html", "GET", {}, function(response) {
 
         contactsList.forEach(function (element, index, array) {
             var row = response;
@@ -93,6 +96,8 @@ function refreshContactList(response) {
             $('#contacts').append(row);
         });
     });
+
+    $('.initiallyHidden').addClass('sectionEditable').removeClass('initiallyHidden');
 }
 
 function refreshAddressList(response) {
@@ -100,7 +105,7 @@ function refreshAddressList(response) {
 
     $('#addresses').empty();
 
-    callEndpoint("http://127.0.0.1:8080/contacts-app/address-row.html", "GET", {}, function(response) {
+    callEndpoint("http://127.0.0.1:8001/contacts-app/address-row.html", "GET", {}, function(response) {
 
         contactsList.forEach(function (element, index, array) {
             var row = response;
@@ -118,8 +123,8 @@ function refreshAddressList(response) {
             var $button = $(this);
             var id = $button.attr('data-id');
 
-            callEndpoint("http://127.0.0.1:8080/contacts-app/address/remove", "POST", {"id": id}, function(response){
-                callEndpoint("http://127.0.0.1:8080/contacts-app/addresses", "POST",  {}, refreshAddressList);
+            callEndpoint("http://127.0.0.1:8001/contacts-app/address/remove", "POST", {"id": id}, function(response){
+                callEndpoint("http://127.0.0.1:8001/contacts-app/addresses", "POST",  {}, refreshAddressList);
             })
         });
 
@@ -131,7 +136,7 @@ function refreshPhoneList(response) {
 
     $('#phones').empty();
 
-    callEndpoint("http://127.0.0.1:8080/contacts-app/phone-row.html", "GET", {}, function(response) {
+    callEndpoint("http://127.0.0.1:8001/contacts-app/phone-row.html", "GET", {}, function(response) {
 
         phonesList.forEach(function (element, index, array) {
             var row = response;
@@ -149,30 +154,41 @@ function refreshPhoneList(response) {
             var $button = $(this);
             var id = $button.attr('data-id');
 
-            callEndpoint("http://127.0.0.1:8080/contacts-app/phone/remove", "POST", {"id": id}, function(response){
-                callEndpoint("http://127.0.0.1:8080/contacts-app/phones", "POST",  {}, refreshPhoneList);
+            callEndpoint("http://127.0.0.1:8001/contacts-app/phone/remove", "POST", {"id": id}, function(response){
+                callEndpoint("http://127.0.0.1:8001/contacts-app/phones", "POST",  {}, refreshPhoneList);
             })
         });
 
     });
 }
 
+function refreshFKidsAndRefreshContactList(response){
+
+    var contact = JSON.parse(response);
+
+    $('#contactId').val(contact.id);
+    $('#phoneContactId').val(contact.id);
+
+    callEndpoint("http://127.0.0.1:8001/contacts-app/contacts", "POST", {}, refreshContactList);
+}
+
+
 function closeModalAndRefreshContactList(response){
     $('#contact-form-modal').modal('toggle');
 
-    callEndpoint("http://127.0.0.1:8080/contacts-app/contacts", "POST", {}, refreshContactList);
+    callEndpoint("http://127.0.0.1:8001/contacts-app/contacts", "POST", {}, refreshContactList);
 }
 
 function closeModalAndRefreshAddressList(response){
     $('#address-form-modal').modal('toggle');
 
-    callEndpoint("http://127.0.0.1:8080/contacts-app/addresses", "POST", {}, refreshAddressList);
+    callEndpoint("http://127.0.0.1:8001/contacts-app/addresses", "POST", {}, refreshAddressList);
 }
 
 function closeModalAndRefreshPhoneList(response){
     $('#phone-form-modal').modal('toggle');
 
-    callEndpoint("http://127.0.0.1:8080/contacts-app/phones", "POST", {}, refreshPhoneList);
+    callEndpoint("http://127.0.0.1:8001/contacts-app/phones", "POST", {}, refreshPhoneList);
 }
 
 function writeBase64To(file, destinationId, handler) {

@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="bootstrap-datepicker-1.9.0-dist/css/bootstrap-datepicker.css">
   <script src="bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.js"></script>
 
+  <link rel="stylesheet" href="style.css">
   <script src="script.js"></script>
 </head>
 <body>
@@ -28,7 +29,7 @@
   <div class="col">
     <div class="e-tabs mb-3 px-3">
       <ul class="nav nav-tabs">
-        <li class="nav-item"><a class="nav-link active" href="#">Users</a></li>
+        <li class="nav-item"><a class="nav-link active" href="#">Contacts</a></li>
       </ul>
     </div>
 
@@ -62,10 +63,10 @@
         <div class="card">
           <div class="card-body">
             <div class="text-center px-xl-3">
-              <button class="btn btn-success btn-block" type="button" data-toggle="modal" data-target="#contact-form-modal">New Contact</button>
+              <button class="btn btn-success btn-block" type="button" data-toggle="modal" data-target="#contact-form-modal" onclick="$('.sectionEditable').addClass('initiallyHidden').removeClass('sectionEditable');">New Contact</button>
             </div>
             <hr class="my-3">
-            <form class="form" novalidate="" id="searchForm" action="javascript:postForm('searchForm', 'http://127.0.0.1:8080/contacts-app/contacts', refreshContactList)">
+            <form class="form" novalidate="" id="searchForm" action="javascript:postForm('searchForm', 'http://127.0.0.1:8001/contacts-app/contacts', refreshContactList)">
               <div>
                 <div class="form-group">
                   <label>Search by Name:</label>
@@ -105,7 +106,7 @@
           </div>
           <div class="modal-body">
             <div class="py-1">
-              <form class="form" novalidate="" id="contactForm" action="javascript:postForm('contactForm', 'http://127.0.0.1:8080/contacts-app/contacts/save', closeModalAndRefreshContactList)">
+              <form class="form" novalidate="" id="contactForm" action="javascript:postForm('contactForm', 'http://127.0.0.1:8001/contacts-app/contacts/save', refreshFKidsAndRefreshContactList)">
                 <div class="row">
                   <div class="col">
                     <div class="row">
@@ -155,13 +156,13 @@
                   </div>
                 </div>
 
-                <div class="row">
+                <div class="row initiallyHidden">
                   <div class="col d-flex justify-content-end">
                     <button class="btn btn-success btn-block" type="button" data-toggle="modal" data-target="#address-form-modal">New Address</button>
                   </div>
                 </div>
 
-                <div class="row flex-lg-nowrap">
+                <div class="row flex-lg-nowrap initiallyHidden">
                   <div class="col mb-3">
                     <div class="e-panel card">
                       <div class="card-body">
@@ -191,13 +192,13 @@
                   </div>
                 </div>
 
-                <div class="row">
+                <div class="row initiallyHidden">
                   <div class="col d-flex justify-content-end">
                     <button class="btn btn-success btn-block" type="button" data-toggle="modal" data-target="#phone-form-modal">New Phone Number</button>
                   </div>
                 </div>
 
-                <div class="row flex-lg-nowrap">
+                <div class="row flex-lg-nowrap initiallyHidden">
                   <div class="col mb-3">
                     <div class="e-panel card">
                       <div class="card-body">
@@ -245,7 +246,7 @@
           </div>
           <div class="modal-body">
             <div class="py-1">
-              <form class="form" novalidate="" id="addressForm" action="javascript:postForm('addressForm', 'http://127.0.0.1:8080/contacts-app/address/save', closeModalAndRefreshAddressList)">
+              <form class="form" novalidate="" id="addressForm" action="javascript:postForm('addressForm', 'http://127.0.0.1:8001/contacts-app/address/save', closeModalAndRefreshAddressList)">
                 <div class="row">
                   <div class="col">
                     <div class="row">
@@ -308,7 +309,7 @@
           </div>
           <div class="modal-body">
             <div class="py-1">
-              <form class="form" novalidate="" id="phoneForm" action="javascript:postForm('phoneForm', 'http://127.0.0.1:8080/contacts-app/phone/save', closeModalAndRefreshPhoneList)">
+              <form class="form" novalidate="" id="phoneForm" action="javascript:postForm('phoneForm', 'http://127.0.0.1:8001/contacts-app/phone/save', closeModalAndRefreshPhoneList)">
                 <div class="row">
                   <div class="col">
                     <div class="row">
