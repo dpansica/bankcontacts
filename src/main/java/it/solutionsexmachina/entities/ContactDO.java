@@ -17,6 +17,7 @@ public class ContactDO{
 
     private Date dob;
 
+    @Lob
     private String picture;
 
     @OneToMany(mappedBy = "contact")

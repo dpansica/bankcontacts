@@ -162,6 +162,18 @@ function closeModalAndRefreshPhoneList(response){
     callEndpoint("http://127.0.0.1:8080/contacts-app/phones", "POST", {}, refreshPhoneList);
 }
 
+function writeBase64To(file, destinationId) {
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+        $('#'+destinationId).val(reader.result);
+        // console.log(reader.result);
+    };
+    reader.onerror = function (error) {
+        console.log('Error: ', error);
+    };
+}
+
 function postForm(formElement, url, handler){
     var textInputs = $('#'+formElement+' input[type=text], #'+formElement+' input[type=hidden]');
 

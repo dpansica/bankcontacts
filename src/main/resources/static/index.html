@@ -131,6 +131,15 @@
                         </div>
                       </div>
                     </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label>Picture</label>
+                          <input type="hidden" class="form-control" id="picture">
+                          <input type="file" class="form-control" id="file" onchange="writeBase64To($('#file').prop('files')[0], 'picture');">
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
