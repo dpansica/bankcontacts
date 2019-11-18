@@ -5,6 +5,7 @@ import it.solutionsexmachina.entities.ContactDO;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.*;
+import java.util.*;
 
 public class ContactSpecs {
 
@@ -58,5 +59,33 @@ public class ContactSpecs {
             }
         };
     }
+
+    public static Specification<ContactDO> betweenTheseAges(Integer from, Integer to) {
+        return new Specification<ContactDO>() {
+            public Predicate toPredicate(Root<ContactDO> root, CriteriaQuery<?> query,
+                                         CriteriaBuilder builder) {
+
+                List<Predicate> predicates = new ArrayList<>();
+                if (to!=null) {
+                    GregorianCalendar start = new GregorianCalendar();
+                    start.add(Calendar.YEAR, -to);
+
+                    predicates.add(builder.greaterThanOrEqualTo(root.<Date>get("dob"), start.getTime()));
+                }
+
+                if (from!=null) {
+                    GregorianCalendar end = new GregorianCalendar();
+                    end.add(Calendar.YEAR, -from);
+
+                    predicates.add(builder.lessThanOrEqualTo(root.<Date>get("dob"), end.getTime()));
+                }
+
+                return builder.and(predicates.toArray(new Predicate[0]));
+
+            }
+        };
+    }
+
+
 
 }

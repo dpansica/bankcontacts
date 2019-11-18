@@ -10,6 +10,7 @@ import it.solutionsexmachina.repositories.AddressRepository;
 import it.solutionsexmachina.repositories.ContactRepository;
 import it.solutionsexmachina.repositories.PhoneNumberRepository;
 import it.solutionsexmachina.repositories.specs.ContactSpecs;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.domain.Specification;
@@ -36,11 +37,14 @@ public class ContactService {
         List<ContactDO> result = new ArrayList<ContactDO>();
 
         Specification<ContactDO> all = ContactSpecs.all();
-        if (filter.getName()!=null){
+        if (StringUtils.isNotEmpty(filter.getName())){
             all = all.and(ContactSpecs.likeThisName(filter.getName()));
         }
-        if (filter.getAddress()!=null){
+        if (StringUtils.isNotEmpty(filter.getAddress())){
             all = all.and(ContactSpecs.withThisAddress(filter.getAddress()));
+        }
+        if (filter.getFromAge()!=null || filter.getToAge()!=null){
+            all = all.and(ContactSpecs.betweenTheseAges(filter.getFromAge(), filter.getToAge()));
         }
 
         result = contactRepository.findAll(all);

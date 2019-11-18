@@ -58,7 +58,7 @@ function initContactsList() {
 
 function initDatePickers() {
     $('.datepicker').each(function() {
-        $(this).datepicker('clearDates');
+        $(this).datepicker({format: 'dd/mm/yyyy'});
     });
 }
 
