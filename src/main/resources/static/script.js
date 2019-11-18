@@ -163,7 +163,7 @@ function closeModalAndRefreshPhoneList(response){
 }
 
 function postForm(formElement, url, handler){
-    var textInputs = $('#'+formElement+' input[type=text]');
+    var textInputs = $('#'+formElement+' input[type=text], #'+formElement+' input[type=hidden]');
 
     var payload = {};
     for (i = 0; i < textInputs.length; i++) {

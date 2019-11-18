@@ -26,8 +26,8 @@ public class ContactSpecs {
                                          CriteriaBuilder builder) {
 
 
-                Predicate firstNamePredicate = builder.like(root.get("firstName"), "%" + name + "%");
-                Predicate secondNamePredicate = builder.like(root.get("secondName"), "%" + name + "%");
+                Predicate firstNamePredicate = builder.like(builder.upper(root.get("firstName")), "%" + name.toUpperCase() + "%");
+                Predicate secondNamePredicate = builder.like(builder.upper(root.get("secondName")), "%" + name.toUpperCase() + "%");
 
                 return builder.or(firstNamePredicate, secondNamePredicate);
 
@@ -45,10 +45,10 @@ public class ContactSpecs {
                 Join join = subRoot.join("contact");
                 subquery.select(join.get("id"));
 
-                Predicate streetPredicate = builder.like(subRoot.get("street"), "%" + address + "%");
-                Predicate postalCodePredicate = builder.like(subRoot.get("postalCode"), "%" + address + "%");
-                Predicate townPredicate = builder.like(subRoot.get("town"), "%" + address + "%");
-                Predicate countryPredicate = builder.like(subRoot.get("country"), "%" + address + "%");
+                Predicate streetPredicate = builder.like(builder.upper(subRoot.get("street")), "%" + address.toUpperCase() + "%");
+                Predicate postalCodePredicate = builder.like(builder.upper(subRoot.get("postalCode")), "%" + address.toUpperCase() + "%");
+                Predicate townPredicate = builder.like(builder.upper(subRoot.get("town")), "%" + address.toUpperCase() + "%");
+                Predicate countryPredicate = builder.like(builder.upper(subRoot.get("country")), "%" + address.toUpperCase() + "%");
                 subquery.where(builder.or(streetPredicate, postalCodePredicate, townPredicate, countryPredicate));
 
                 Predicate addressPredicate = builder.in(root.get("id")).value(subquery);
