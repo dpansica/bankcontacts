@@ -8,6 +8,14 @@ $(document).ready(function () {
 
 });
 
+function loadImage(src) {
+    $('#contactPicture').empty();
+    var image = new Image();
+    image.src = src;
+    image.height = 150;
+    $('#contactPicture').append(image);
+}
+
 function initContactsList() {
     var $body = $('body');
 
@@ -32,6 +40,11 @@ function initContactsList() {
                     var selector = '#contactForm #'+property;
                     $(selector).val(object[property]);
                 }
+            }
+
+            $('#contactPicture').empty();
+            if (object['picture']){
+                loadImage(object['picture']);
             }
 
             callEndpoint("http://127.0.0.1:8080/contacts-app/addresses", "POST", {"contactId": id}, function(response){
@@ -162,11 +175,14 @@ function closeModalAndRefreshPhoneList(response){
     callEndpoint("http://127.0.0.1:8080/contacts-app/phones", "POST", {}, refreshPhoneList);
 }
 
-function writeBase64To(file, destinationId) {
+function writeBase64To(file, destinationId, handler) {
     var reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = function () {
         $('#'+destinationId).val(reader.result);
+        if (handler!=null){
+            handler(reader.result);
+        }
         // console.log(reader.result);
     };
     reader.onerror = function (error) {
