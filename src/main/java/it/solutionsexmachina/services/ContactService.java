@@ -39,6 +39,9 @@ public class ContactService {
         if (filter.getName()!=null){
             all = all.and(ContactSpecs.likeThisName(filter.getName()));
         }
+        if (filter.getAddress()!=null){
+            all = all.and(ContactSpecs.withThisAddress(filter.getAddress()));
+        }
 
         result = contactRepository.findAll(all);
 

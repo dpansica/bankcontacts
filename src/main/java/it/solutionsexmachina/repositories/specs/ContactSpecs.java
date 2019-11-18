@@ -1,12 +1,10 @@
 package it.solutionsexmachina.repositories.specs;
 
+import it.solutionsexmachina.entities.AddressDO;
 import it.solutionsexmachina.entities.ContactDO;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 
 public class ContactSpecs {
 
@@ -36,4 +34,29 @@ public class ContactSpecs {
             }
         };
     }
+
+    public static Specification<ContactDO> withThisAddress(String address) {
+        return new Specification<ContactDO>() {
+            public Predicate toPredicate(Root<ContactDO> root, CriteriaQuery<?> query,
+                                         CriteriaBuilder builder) {
+
+                Subquery subquery = query.subquery(AddressDO.class);
+                Root subRoot = subquery.from(AddressDO.class);
+                Join join = subRoot.join("contact");
+                subquery.select(join.get("id"));
+
+                Predicate streetPredicate = builder.like(subRoot.get("street"), "%" + address + "%");
+                Predicate postalCodePredicate = builder.like(subRoot.get("postalCode"), "%" + address + "%");
+                Predicate townPredicate = builder.like(subRoot.get("town"), "%" + address + "%");
+                Predicate countryPredicate = builder.like(subRoot.get("country"), "%" + address + "%");
+                subquery.where(builder.or(streetPredicate, postalCodePredicate, townPredicate, countryPredicate));
+
+                Predicate addressPredicate = builder.in(root.get("id")).value(subquery);
+
+                return addressPredicate;
+
+            }
+        };
+    }
+
 }
