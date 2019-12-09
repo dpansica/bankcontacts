@@ -26,11 +26,12 @@ public class PhoneController {
 
         List<PhoneNumberDTO> results = new ArrayList<>();
 
-        List<PhoneNumberDO> addresses = contactService.searchPhones(filter);
-        for (PhoneNumberDO address : addresses) {
+        List<PhoneNumberDO> phones = contactService.searchPhones(filter);
+        for (PhoneNumberDO phone : phones) {
             PhoneNumberDTO dto = new PhoneNumberDTO();
 
-            BeanUtils.copyProperties(address, dto);
+            BeanUtils.copyProperties(phone, dto);
+            dto.setPhoneContactId(phone.getContact().getId());
 
             results.add(dto);
         }

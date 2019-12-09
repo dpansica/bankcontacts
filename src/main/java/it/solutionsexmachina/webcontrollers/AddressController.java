@@ -19,7 +19,7 @@ public class AddressController {
     private ContactService contactService;
 
     @RequestMapping(value = "/addresses", method = RequestMethod.POST)
-    public List<AddressDTO> getAddresses(@RequestBody AddressFilter filter) {
+    public List<AddressDTO> getAddresses(@RequestBody AddressFilter filter) throws Exception {
 
         List<AddressDTO> results = new ArrayList<>();
 
@@ -28,6 +28,7 @@ public class AddressController {
             AddressDTO dto = new AddressDTO();
 
             BeanUtils.copyProperties(address, dto);
+            dto.setContactId(address.getContact().getId());
 
             results.add(dto);
         }
